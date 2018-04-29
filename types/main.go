@@ -13,7 +13,23 @@ type Persona struct {
 	Added    time.Time
 }
 
-type Cuenta struct {
+// Metodo para persona
+func (p Persona) PrintName() {
+	fmt.Printf("\n%s %s\n", p.Nombre, p.Apellido)
+}
+
+func (p Persona) PrintDetails() {
+	fmt.Printf("[Added: %s, Email: %s, Nombre: %s %s]\n", p.Added, p.Email, p.Nombre, p.Apellido)
+}
+
+// set metod => se utilizar un puntero
+func (p *Persona) CambioNombre(nuevoNombre string) {
+	p.Nombre = nuevoNombre
+}
+
+type Admin struct {
+	Persona
+	Roles []string
 }
 
 func main() {
@@ -25,7 +41,13 @@ func main() {
 	p.Edad = 30
 	p.Added = time.Date(2018, 04, 27, 0, 0, 0, 0, time.UTC)
 
+	var adm = Admin{
+		Persona: p,
+		Roles:   []string{"jefe", "administrador de sistemas", "programador"},
+	}
+
 	fmt.Println(p)
+	fmt.Println(adm)
 
 	// Coleccion de tipos.
 	curso := make([]Persona, 3)
@@ -59,4 +81,8 @@ func main() {
 			fmt.Println("No hay Nicolas en el slice")
 		}
 	}
+
+	curso[0].PrintDetails()
+	curso[0].CambioNombre("Camilo Sebastián")
+	curso[0].PrintDetails()
 }
